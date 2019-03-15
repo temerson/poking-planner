@@ -1,10 +1,9 @@
-const mongoose = require('mongoose');
-const express = require('express');
-const bodyParser = require('body-parser');
-const logger = require('morgan');
-const Data = require('./data');
+import mongoose from 'mongoose';
+import express from 'express';
+import bodyParser from 'body-parser';
+import logger from 'morgan';
+import Data from './data';
 
-const API_PORT = 3001;
 const app = express();
 const router = express.Router();
 
@@ -22,6 +21,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
+
+// fix cors issues
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -66,4 +67,5 @@ router.delete('/data', (req, res) => {
 });
 
 app.use('/api', router);
-app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
+
+export default app;
